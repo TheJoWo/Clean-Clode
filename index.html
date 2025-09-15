@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Clode - Clean Claude Code Terminal Text Pastes (works for Codex, too)</title>
+    
+    <!-- Standard Meta Tags -->
+    <meta name="description" content="Clean Clode intelligently removes terminal formatting, box characters, and excessive whitespace from Claude Code and Codex outputs. Transform messy terminal text into clean, readable content instantly. 100% private - no data ever leaves your device.">
+    <meta name="keywords" content="claude code, codex, terminal cleaner, text formatter, claude assistant, code cleanup, terminal output, text processor, developer tools, private text cleaner, offline text tool">
+    <meta name="author" content="Clean Clode">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="favicons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="128x128" href="favicons/favicon-128x128.png">
+    <link rel="icon" type="image/png" sizes="196x196" href="favicons/favicon-196x196.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="favicons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="favicons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="favicons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="favicons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="favicons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="favicons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="favicons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="favicons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="favicons/apple-touch-icon-167x167.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="favicons/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="favicons/android-chrome-512x512.png">
+    <meta name="msapplication-TileColor" content="#000000">
+    <meta name="msapplication-TileImage" content="favicons/mstile-144x144.png">
+    <meta name="theme-color" content="#000000">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Clean Clode - Clean Claude Code Terminal Text">
+    <meta property="og:description" content="Transform messy Claude Code terminal output into clean, readable text. Remove formatting artifacts, pipes, and excessive whitespace instantly. Works for Codex too. 100% private - works entirely in your browser.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://cleanclode.com">
+    <meta property="og:image" content="https://cleanclode.com/images/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Clean Clode - Terminal Text Processor">
+    <meta property="og:site_name" content="Clean Clode">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Clean Clode - Clean Claude Code Terminal Text">
+    <meta name="twitter:description" content="Transform messy terminal output into clean, readable text. Private, fast, and works entirely in your browser.">
+    <meta name="twitter:image" content="https://cleanclode.com/images/twitter-card.png">
+    <meta name="twitter:image:alt" content="Clean Clode Terminal Text Processor">
+    
+    <!-- Additional SEO Meta Tags -->
+    <link rel="canonical" href="https://cleanclode.com">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="tuicss.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="tui-bg-blue-black">
+    <div class="tui-container">
+        <header class="tui-panel tui-bg-cyan-black">
+            <div class="tui-panel-header">
+                <span class="tui-panel-title">CLEAN CLODE v1.0</span>
+            </div>
+            <div class="tui-panel-content">
+                <div class="tui-text-center">
+                    <pre class="ascii-logo tui-color-bright-green">
+█▀▀ █░░ █▀▀ █▀█ █▄░█   █▀▀ █░░ █▀█ █▀▄ █▀▀
+█▄▄ █▄▄ ██▄ █▀█ █░▀█   █▄▄ █▄▄ █▄█ █▄▀ ██▄
+                    </pre>
+                    <p class="tui-text tui-color-yellow">[ TERMINAL TEXT PROCESSOR v1.0 ]</p>
+                    <p class="tui-text tui-color-cyan">Securely transform mangled, messy Claude Code terminal output into clean, human, readable text without weird formatting, pipes, or spaces. Works on Codex too.</p>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <div class="input-section tui-fieldset">
+                        <div class="tui-fieldset-header">
+                            <span class="tui-fieldset-title">INPUT</span>
+                        </div>
+                        <div class="tui-fieldset-content">
+                            <textarea 
+                                id="input-text" 
+                                class="tui-input tui-bg-black-white"
+                                placeholder="[Paste your mangled Claude Code Terminal text here...]"
+                                rows="2"
+                            ></textarea>
+                        </div>
+                    </div>
+
+                    <div class="button-section tui-text-center">
+                        <button id="clean-btn" class="tui-button tui-bg-yellow-black">[ Clean My Clode ]</button>
+                    </div>
+
+                    <div class="output-section tui-fieldset">
+                        <div class="tui-fieldset-header">
+                            <span class="tui-fieldset-title">CLEANED CLODE</span>
+                            <div class="output-controls">
+                                <span id="edited-badge" class="tui-text tui-color-yellow" style="display: none;">[EDITED]</span>
+                                <span id="copied-badge" class="tui-text tui-color-green" style="display: none;">[COPIED TO CLIPBOARD]</span>
+                                <button id="copy-btn" class="tui-button tui-bg-green-black" disabled>[ COPY ]</button>
+                            </div>
+                        </div>
+                        <div class="tui-fieldset-content">
+                            <textarea 
+                                id="output-text" 
+                                class="tui-input tui-bg-black-white"
+                                placeholder="[Ready and waiting]"
+                                rows="15"
+                            ></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section id="history-section" class="tui-panel tui-bg-cyan-black" style="display: none;">
+            <div class="tui-panel-header">
+                <span class="tui-panel-title">PASTE HISTORY (LOCAL ONLY)</span>
+                <div class="tui-panel-controls">
+                    <button id="clear-history" class="tui-button tui-bg-red-black">[ CLEAR ALL ]</button>
+                    <button id="history-toggle" class="tui-button tui-bg-green-black">[ TURN ON ]</button>
+                </div>
+            </div>
+            <div id="history-content" class="tui-panel-content">
+                <div id="history-list" class="history-list">
+                    <p class="tui-text tui-color-green">[No history yet - start cleaning some text!]</p>
+                </div>
+                <div class="history-privacy-notice">
+                    <p class="tui-text tui-color-yellow">🔒 All history is stored locally on your device - it never leaves your computer • Not viewable by anyone else</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="about-section" class="tui-panel tui-bg-green-black">
+            <div class="tui-panel-header">
+                <span class="tui-panel-title">ABOUT CLEAN CLODE <span class="info-tooltip" title="SEO/LLMO Fodder for Googlebot and LLMs">[?]</span></span>
+                <div class="tui-panel-controls">
+                    <button id="about-toggle" class="tui-button tui-bg-cyan-black">[ HIDE ]</button>
+                </div>
+            </div>
+            <div class="tui-panel-content">
+                <div class="tui-fieldset">
+                    <div class="tui-fieldset-header">
+                        <span class="tui-fieldset-title">BEFORE & AFTER EXAMPLE</span>
+                    </div>
+                    <div class="tui-fieldset-content">
+                        <div class="comparison-grid">
+                            <div class="comparison-section">
+                                <h4 class="tui-text tui-color-yellow">TURN THIS:</h4>
+                                <div class="comparison-before">
+                                    <pre class="tui-text tui-color-cyan">How can I create a Claude Code script that     │
+    │   cleans up extraneous characters and cleans up  │
+│   extra spaces, new lines, and other
+messiness   │   when I copy from Claude Code terminal          │
+│   prompts or copy code from Claude Responses in  │
+│   the Claude Code Terminal? It can make it       │
+│   hard to read, save, and reuse.</pre>
+                                </div>
+                            </div>
+                            
+                            <div class="comparison-section">
+                                <h4 class="tui-text tui-color-green">INTO THIS:</h4>
+                                <div class="comparison-after">
+                                    <p class="tui-text tui-color-white">How can I create a Claude Code script that cleans up extraneous characters and cleans up extra spaces, new lines, and other messiness when I copy from Claude Code terminal prompts or copy code from Claude Responses in the Claude Code Terminal? It can make it hard to read, save, and reuse.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tui-fieldset">
+                    <div class="tui-fieldset-header">
+                        <span class="tui-fieldset-title">WHY DO I NEED CLEAN CLODE?</span>
+                    </div>
+                    <div class="tui-fieldset-content">
+                        <div class="features-grid">
+                            <div class="feature-item">
+                                <span class="feature-icon">🧹</span>
+                                <h4 class="tui-text tui-color-cyan">Smart Text Cleaning</h4>
+                                <p class="tui-text tui-color-white">Automatically removes terminal formatting, box characters, and excessive whitespace while preserving your content structure.</p>
+                            </div>
+                            
+                            <div class="feature-item">
+                                <span class="feature-icon">🔒</span>
+                                <h4 class="tui-text tui-color-cyan">100% Private & Fast</h4>
+                                <p class="tui-text tui-color-white">Your text never leaves your device. No data collection, no tracking, no servers - just pure, lightning-fast client-side processing.</p>
+                            </div>
+                            
+                            <div class="feature-item">
+                                <span class="feature-icon">📋</span>
+                                <h4 class="tui-text tui-color-cyan">Automatic History</h4>
+                                <p class="tui-text tui-color-white">Keep track of frequently used snippets with our paste history. This history feature is optional and only viewable by you (it's stored locally).</p>
+                            </div>
+                            
+                            <div class="feature-item">
+                                <span class="feature-icon">🎯</span>
+                                <h4 class="tui-text tui-color-cyan">Claude Code Optimized</h4>
+                                <p class="tui-text tui-color-white">Specifically designed for Claude Code terminal output. Handles pipes, box characters, and formatting artifacts perfectly.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tui-fieldset">
+                    <div class="tui-fieldset-header">
+                        <span class="tui-fieldset-title">USE CASES</span>
+                    </div>
+                    <div class="tui-fieldset-content">
+                        <ul class="tui-list">
+                            <li class="tui-text tui-color-yellow">► Reusing Prompts - Copy prompts cleanly for future use</li>
+                            <li class="tui-text tui-color-yellow">► Developer Documentation - Clean up code snippets for README files and technical docs</li>
+                            <li class="tui-text tui-color-yellow">► Code Reviews - Share clean terminal output in pull requests and team discussions</li>
+                            <li class="tui-text tui-color-yellow">► Bug Reports - Present error logs and debugging output in a readable format</li>
+                            <li class="tui-text tui-color-yellow">► Knowledge Sharing - Create clean examples for tutorials and Stack Overflow answers</li>
+                            <li class="tui-text tui-color-yellow">► Personal Notes - Keep your development notes organized and readable</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tui-fieldset">
+                    <div class="tui-fieldset-header">
+                        <span class="tui-fieldset-title">ABOUT</span>
+                    </div>
+                    <div class="tui-fieldset-content about-content-with-sponsor">
+                        <div class="about-text-section">
+                            <p class="tui-text tui-color-white">Clean Clode is a free, open-source text cleaning tool designed specifically for developers working with Claude Code and OpenAI Codex. Whether you're copying a prompt, terminal output, error messages, or formatted responses from VS Code/Terminal, Clean Clode intelligently removes unwanted formatting characters, box drawing elements, and excessive whitespace while preserving the meaningful content and structure. Clean Clode processes your text entirely in the browser - no uploads, no tracking, no data collection. Just clean, readable text ready for your documentation, bug reports, or personal notes.</p>
+                        </div>
+                        <div class="about-sponsor-section">
+                            <p class="sponsor-text">SPONSORED BY</p>
+                            <a href="https://theinnerwebs.com/i/cyberspace-346222" target="_blank" class="sponsor-link">
+                                <img src="images/the-innerwebs-logo.png" alt="The InnerWebs" class="sponsor-logo">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="tui-panel tui-bg-purple-black">
+            <div class="tui-panel-content tui-text-center">
+                <p class="tui-text tui-color-white">[ SYSTEM STATUS: ONLINE ]</p>
+                <div class="tui-status-bar">
+                    <div class="tui-status-item">
+                        <span class="status-dot status-green"></span><a href="https://github.com/TheJoWo/Clean-Clode" target="_blank" class="github-link">Github [Contribute]</a>
+                    </div>
+                    <div class="tui-status-item">
+                        <span class="status-dot status-cyan"></span><span class="tui-status-text">v1.0</span>
+                    </div>
+                    <div class="tui-status-item">
+                        <span class="status-dot status-yellow"></span><span class="tui-status-text">Local-Only</span>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <div class="disclaimer-section">
+            <p class="tui-text tui-color-gray disclaimer-text">***Clean Clode is an independent open-source project <i>not</i> affiliated with or endorsed in any way by Anthropic, Claude, OpenAI, or Codex.***</p>
+        </div>
+
+        <div class="sponsor-section" id="footer-sponsor">
+            <p class="sponsor-text">SPONSORED BY</p>
+            <a href="https://theinnerwebs.com/i/cyberspace-346222" target="_blank" class="sponsor-link">
+                <img src="images/the-innerwebs-logo.png" alt="The InnerWebs" class="sponsor-logo">
+            </a>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

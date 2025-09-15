@@ -1,0 +1,21 @@
+{
+  "name": "clean-clode",
+  "version": "1.0.0",
+  "description": "A simple web utility that cleans up messy terminal text from Claude Code and other AI tools",
+  "main": "index.html",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TheJoWo/Clean-Clode.git"
+  },
+  "keywords": [
+    "claude-code",
+    "codex",
+    "text-processing",
+    "terminal",
+    "cleanup",
+    "client-side",
+    "privacy"
+  ],
+  "license": "GPL-3.0",
+  "homepage": "https://cleanclode.com"
+}

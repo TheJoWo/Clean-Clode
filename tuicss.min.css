@@ -1,0 +1,236 @@
+/*! TuiCss v2.1.0 | (c) 2022 Vinícius Biavatti | MIT License */
+* { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+:root {
+    --tui-color-black: #000000;
+    --tui-color-blue: #0000aa;
+    --tui-color-green: #00aa00;
+    --tui-color-cyan: #00aaaa;
+    --tui-color-red: #aa0000;
+    --tui-color-purple: #aa00aa;
+    --tui-color-yellow: #aa5500;
+    --tui-color-white: #aaaaaa;
+    --tui-color-bright-black: #555555;
+    --tui-color-bright-blue: #5555ff;
+    --tui-color-bright-green: #55ff55;
+    --tui-color-bright-cyan: #55ffff;
+    --tui-color-bright-red: #ff5555;
+    --tui-color-bright-purple: #ff55ff;
+    --tui-color-bright-yellow: #ffff55;
+    --tui-color-bright-white: #ffffff;
+    --tui-font-family: "Lucida Console", monospace;
+}
+
+body {
+    font-family: var(--tui-font-family);
+    font-size: 16px;
+    line-height: 1.2;
+    margin: 0;
+    padding: 0;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Color utilities */
+.tui-color-black { color: var(--tui-color-black) !important; }
+.tui-color-blue { color: var(--tui-color-blue) !important; }
+.tui-color-green { color: var(--tui-color-green) !important; }
+.tui-color-cyan { color: var(--tui-color-cyan) !important; }
+.tui-color-red { color: var(--tui-color-red) !important; }
+.tui-color-purple { color: var(--tui-color-purple) !important; }
+.tui-color-yellow { color: var(--tui-color-yellow) !important; }
+.tui-color-white { color: var(--tui-color-white) !important; }
+.tui-color-bright-green { color: var(--tui-color-bright-green) !important; }
+.tui-color-bright-cyan { color: var(--tui-color-bright-cyan) !important; }
+.tui-color-bright-yellow { color: var(--tui-color-bright-yellow) !important; }
+
+/* Background color utilities */
+.tui-bg-black { background-color: var(--tui-color-black) !important; }
+.tui-bg-blue { background-color: var(--tui-color-blue) !important; }
+.tui-bg-green { background-color: var(--tui-color-green) !important; }
+.tui-bg-cyan { background-color: var(--tui-color-cyan) !important; }
+.tui-bg-red { background-color: var(--tui-color-red) !important; }
+.tui-bg-purple { background-color: var(--tui-color-purple) !important; }
+.tui-bg-yellow { background-color: var(--tui-color-yellow) !important; }
+.tui-bg-white { background-color: var(--tui-color-white) !important; }
+
+/* Combined color utilities */
+.tui-bg-blue-black { background-color: var(--tui-color-blue); color: var(--tui-color-black); }
+.tui-bg-cyan-black { background-color: var(--tui-color-cyan); color: var(--tui-color-black); }
+.tui-bg-black-white { background-color: var(--tui-color-black); color: var(--tui-color-white); }
+.tui-bg-green-black { background-color: var(--tui-color-green); color: var(--tui-color-black); }
+.tui-bg-yellow-black { background-color: var(--tui-color-yellow); color: var(--tui-color-black); }
+.tui-bg-purple-black { background-color: var(--tui-color-purple); color: var(--tui-color-black); }
+.tui-bg-red-black { background-color: var(--tui-color-red); color: var(--tui-color-black); }
+
+/* Typography */
+.tui-text { font-family: var(--tui-font-family); }
+.tui-text-center { text-align: center !important; }
+
+/* Layout */
+.tui-container { 
+    max-width: 1200px; 
+    margin: 0 auto; 
+    padding: 0 1rem; 
+}
+
+/* Panel */
+.tui-panel {
+    border: 2px solid var(--tui-color-white);
+    margin: 1rem 0;
+    background-color: var(--tui-color-black);
+    color: var(--tui-color-white);
+}
+
+.tui-panel-header {
+    background-color: var(--tui-color-cyan);
+    color: var(--tui-color-black);
+    padding: 0.5rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--tui-color-white);
+}
+
+.tui-panel-title {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.tui-panel-content {
+    padding: 1rem;
+}
+
+.tui-panel-controls {
+    display: flex;
+    gap: 0.25rem;
+}
+
+/* Fieldset */
+.tui-fieldset {
+    border: 1px solid var(--tui-color-white);
+    margin: 1rem 0;
+    background-color: var(--tui-color-black);
+    color: var(--tui-color-white);
+}
+
+.tui-fieldset-header {
+    background-color: var(--tui-color-white);
+    color: var(--tui-color-black);
+    padding: 0.25rem 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--tui-color-white);
+}
+
+.tui-fieldset-title {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+}
+
+.tui-fieldset-content {
+    padding: 0.5rem;
+}
+
+/* Buttons */
+.tui-button {
+    font-family: var(--tui-font-family);
+    border: 2px outset var(--tui-color-white);
+    padding: 0.25rem 0.5rem;
+    background-color: var(--tui-color-white);
+    color: var(--tui-color-black);
+    cursor: pointer;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.tui-button:hover:not(:disabled) {
+    background-color: var(--tui-color-bright-white);
+}
+
+.tui-button:active:not(:disabled) {
+    border: 2px inset var(--tui-color-white);
+}
+
+.tui-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Form inputs */
+.tui-input {
+    font-family: var(--tui-font-family);
+    border: 1px inset var(--tui-color-white);
+    padding: 0.25rem;
+    background-color: var(--tui-color-white);
+    color: var(--tui-color-black);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.tui-input:focus {
+    outline: none;
+    background-color: var(--tui-color-bright-white);
+}
+
+/* Lists */
+.tui-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tui-list li {
+    padding: 0.25rem 0;
+    border-bottom: 1px dotted var(--tui-color-white);
+}
+
+.tui-list li:last-child {
+    border-bottom: none;
+}
+
+/* Table */
+.tui-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--tui-font-family);
+}
+
+.tui-table-row {
+    display: table-row;
+}
+
+.tui-table-cell {
+    display: table-cell;
+    padding: 0.5rem;
+    border: 1px solid var(--tui-color-white);
+    vertical-align: top;
+}
+
+/* Utilities */
+.tui-mt-1 { margin-top: 0.5rem !important; }
+.tui-mb-1 { margin-bottom: 0.5rem !important; }
+.tui-p-1 { padding: 0.5rem !important; }
+
+@media (max-width: 768px) {
+    .tui-container {
+        padding: 0 0.5rem;
+    }
+    
+    .tui-panel-header {
+        padding: 0.25rem 0.5rem;
+    }
+    
+    .tui-panel-content {
+        padding: 0.5rem;
+    }
+    
+    .tui-fieldset-content {
+        padding: 0.25rem;
+    }
+}

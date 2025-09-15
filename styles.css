@@ -1,0 +1,1005 @@
+/* Custom overrides and enhancements for TuiCss retro interface */
+
+/* Font size system for consistency */
+:root {
+    --font-size-xs: 0.75rem;  /* 12px - Small disclaimers, privacy notices */
+    --font-size-sm: 0.875rem; /* 14px - Secondary text, buttons, dates */
+    --font-size-md: 1rem;     /* 16px - Base text, content */
+    --font-size-lg: 1.25rem;  /* 20px - Headings, titles */
+    --font-size-xl: 1.5rem;   /* 24px - Large headings */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Enable text selection for all content (TuiCSS disables it by default) */
+body * {
+    -webkit-user-select: text !important;
+    -moz-user-select: text !important;
+    -ms-user-select: text !important;
+    user-select: text !important;
+}
+
+/* Disable text selection only for buttons and interactive controls */
+button,
+.tui-button,
+.tui-panel-controls,
+.tui-status-bar,
+.feature-icon,
+.ascii-logo {
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+}
+
+body {
+    font-family: "Lucida Console", "Courier New", monospace;
+    font-size: 16px; /* Base font size */
+    line-height: 1.4;
+    background: #000000; /* Pure black background */
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Custom container styling */
+.tui-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 20px;
+    min-height: calc(100vh - 40px);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Custom header styling */
+header h1 {
+    font-size: var(--font-size-xl);
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* ASCII logo styling */
+.ascii-logo {
+    font-family: "Courier New", monospace;
+    font-size: var(--font-size-xl);
+    line-height: 1.2;
+    margin: 10px 0;
+    font-weight: bold;
+    color: #55ff55 !important; /* Bright matrix green */
+    text-shadow: 0 0 10px rgba(85, 255, 85, 0.5);
+    animation: pulseGlow 8s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+    0%, 100% { text-shadow: 0 0 10px rgba(85, 255, 85, 0.5); }
+    50% { text-shadow: 0 0 20px rgba(85, 255, 85, 0.8), 0 0 30px rgba(85, 255, 85, 0.4); }
+}
+
+/* Button section styling */
+.button-section {
+    padding: 20px 0;
+}
+
+/* Main panel styling */
+main {
+    flex: 1;
+}
+
+/* Section spacing */
+.input-section,
+.output-section {
+    margin-bottom: 0;
+}
+
+/* Custom fieldset styling */
+.tui-fieldset {
+    margin-bottom: 20px;
+}
+
+.tui-fieldset-content {
+    padding: 15px;
+}
+
+/* Output controls styling */
+.output-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-left: auto;
+}
+
+/* Edited badge animation */
+#edited-badge {
+    animation: fadeIn 0.3s ease-in;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Textarea overrides for retro feel */
+textarea.tui-input {
+    font-family: "Lucida Console", monospace;
+    font-size: var(--font-size-md);
+    line-height: 1.2;
+    resize: vertical;
+    min-height: 120px;
+}
+
+textarea.tui-input::placeholder {
+    font-style: normal;
+    text-transform: uppercase;
+    color: #40ff40; /* Dark green for placeholder */
+    opacity: 0.5; /* Make placeholder text more transparent */
+}
+
+/* Retro typing effect */
+textarea.tui-input.typing-active {
+    box-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+    animation: terminalGlow 0.2s ease;
+}
+
+@keyframes terminalGlow {
+    0% { box-shadow: 0 0 5px rgba(0, 255, 0, 0.3); }
+    50% { box-shadow: 0 0 10px rgba(0, 255, 0, 0.7); }
+    100% { box-shadow: 0 0 5px rgba(0, 255, 0, 0.5); }
+}
+
+/* Hide output section when empty */
+.output-section {
+    display: none;
+}
+
+.output-section.has-content {
+    display: block;
+}
+
+/* History section styling */
+#history-section {
+    display: block;
+}
+
+#history-section.history-hidden {
+    display: none;
+}
+
+/* Panel controls styling for buttons in header */
+.tui-panel-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tui-panel-controls button {
+    pointer-events: auto;
+    position: relative;
+    z-index: 10;
+}
+
+#history-content {
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 15px 15px 0 15px !important; /* Remove bottom padding to allow privacy notice to sit flush */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.history-list {
+    padding: 0;
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 60px; /* Space for the sticky privacy notice */
+}
+
+.history-item {
+    border: 1px solid var(--dark-green);
+    background-color: var(--dark-gray);
+    margin-bottom: 15px;
+    border-radius: 3px;
+}
+
+.history-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background-color: var(--medium-gray);
+    border-bottom: 1px solid var(--dark-green);
+    font-size: var(--font-size-sm);
+}
+
+.history-date {
+    color: var(--medium-green) !important;
+    font-family: "Lucida Console", monospace;
+}
+
+.history-item-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.history-copy-btn,
+.history-expand-btn {
+    padding: 2px 8px !important;
+    font-size: 0.8rem !important;
+    min-width: auto !important;
+    height: auto !important;
+}
+
+.history-item-content-container {
+    background-color: var(--black);
+}
+
+.history-item-content {
+    padding: 10px 12px;
+    font-family: "Lucida Console", monospace;
+    font-size: var(--font-size-sm);
+    font-weight: bold;
+    line-height: 1.3;
+    background-color: var(--black);
+    color: var(--medium-green);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.history-item-preview {
+    /* Preview shows limited content without scrolling */
+    max-height: none;
+    overflow: hidden;
+}
+
+.history-item-preview:hover {
+    background-color: var(--dark-gray) !important;
+    border: 1px solid var(--dark-green);
+    margin: -1px;
+}
+
+.history-item-full {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.history-item-full::-webkit-scrollbar {
+    width: 6px;
+}
+
+.history-item-full::-webkit-scrollbar-track {
+    background: var(--dark-gray);
+}
+
+.history-item-full::-webkit-scrollbar-thumb {
+    background: var(--dark-green);
+    border-radius: 3px;
+}
+
+/* Toggle button states */
+#history-toggle.enabled {
+    background-color: var(--dark-green) !important;
+    color: var(--black) !important;
+    border-color: var(--primary-green) !important;
+}
+
+#history-toggle.disabled {
+    background-color: var(--medium-gray) !important;
+    color: var(--dark-green) !important;
+    border-color: var(--dim-green) !important;
+}
+
+/* Privacy notice styling - sticky at bottom */
+.history-privacy-notice {
+    position: sticky;
+    bottom: 0;
+    background-color: var(--dark-gray);
+    padding: 10px;
+    border-top: 1px solid var(--dim-green);
+    margin: 0 -15px 0 -15px; /* Negative left/right margins to span full width */
+    z-index: 5;
+}
+
+.history-privacy-notice p {
+    font-size: var(--font-size-sm) !important;
+    opacity: 0.8;
+    line-height: 1.3;
+    color: var(--primary-green) !important;
+    margin: 0;
+}
+
+/* Custom features grid layout - 2x2 grid for 4 cards */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin: 20px 0;
+}
+
+/* Comparison section styling */
+.comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 20px 0;
+    align-items: stretch;
+}
+
+.comparison-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.comparison-section h4 {
+    margin-bottom: 10px;
+    font-size: var(--font-size-md);
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.comparison-before,
+.comparison-after {
+    background-color: var(--dark-gray);
+    border: 1px solid var(--dark-green);
+    border-radius: 3px;
+    padding: 15px;
+    min-height: 120px;
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+}
+
+.comparison-before pre {
+    margin: 0;
+    font-size: var(--font-size-sm);
+    line-height: 1.2;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.comparison-after p {
+    margin: 0;
+    font-size: var(--font-size-sm);
+    line-height: 1.2;
+}
+
+/* Feature items styling */
+.feature-item {
+    margin: 0; /* Remove individual margins, let grid handle spacing */
+    padding: 20px;
+    background-color: var(--dark-gray);
+    border: 1px solid var(--dark-green);
+    border-radius: 3px;
+}
+
+.feature-icon {
+    font-size: var(--font-size-xl);
+    display: block;
+    margin-bottom: 8px;
+}
+
+.feature-item h4 {
+    margin: 10px 0 12px 0; /* Consistent top spacing from icon */
+    font-size: var(--font-size-md);
+    font-weight: bold;
+}
+
+.feature-item p {
+    margin: 0;
+    font-size: var(--font-size-sm);
+    line-height: 1.3;
+}
+
+/* About section and use cases text sizing */
+#about-section .tui-fieldset-content .tui-text {
+    font-size: var(--font-size-sm);
+    line-height: 1.3;
+}
+
+/* Use cases list items */
+.tui-list li {
+    font-size: var(--font-size-sm);
+    line-height: 1.3;
+}
+
+/* Responsive comparison layout */
+@media (max-width: 768px) {
+    .comparison-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .feature-item {
+        padding: 12px;
+    }
+}
+
+/* Status bar styling */
+.tui-status-bar {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 10px;
+}
+
+.tui-status-item {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    font-size: var(--font-size-md);
+    color: #55ff55; /* Bright green text */
+}
+
+/* Pixel-perfect status dots (avoid glyph side-bearing gaps) */
+.status-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--primary-green);
+    margin-right: 4px;
+    vertical-align: middle;
+}
+
+/* Aliases for semantic coloring (monochrome theme keeps them green) */
+.status-green { background-color: var(--primary-green); }
+.status-cyan { background-color: var(--primary-green); }
+.status-yellow { background-color: var(--primary-green); }
+
+/* Table enhancements */
+.tui-table {
+    width: 100%;
+}
+
+.tui-table-row {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px;
+    padding: 8px 0;
+    border-bottom: 1px solid #404040;
+}
+
+.tui-table-cell {
+    padding: 5px;
+    font-family: "Lucida Console", monospace;
+    font-size: var(--font-size-md);
+}
+
+/* Retro footer styling */
+footer {
+    margin-top: auto;
+}
+
+/* Responsive Design for Retro Interface */
+@media (max-width: 768px) {
+    .tui-container {
+        padding: 0 15px;
+        margin: 10px auto;
+        gap: 15px;
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .tui-status-bar {
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+    }
+    
+    .tui-table-row {
+        grid-template-columns: 1fr;
+        gap: 5px;
+        padding: 10px 0;
+    }
+    
+    .output-controls {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .tui-container {
+        padding: 0 5px;
+        margin: 2px auto;
+    }
+    
+    textarea.tui-input {
+        font-size: 11px;
+        min-height: 100px;
+    }
+    
+    /* Scale down ASCII logo on extra small screens */
+    .ascii-logo {
+        font-size: var(--font-size-xs);
+        line-height: 1.0;
+        margin: 5px 0;
+    }
+    
+    .tui-fieldset-content {
+        padding: 10px;
+    }
+    
+    header h1 {
+        font-size: var(--font-size-lg);
+        letter-spacing: 1px;
+    }
+}
+
+/* ===== MONOCHROMATIC BLACK/GREEN THEME OVERRIDES ===== */
+
+/* Define color palette */
+:root {
+    --primary-green: #55ff55;    /* Bright matrix green */
+    --medium-green: #44dd44;     /* Medium green */
+    --dark-green: #2a7a2a;        /* Dark green */
+    --dim-green: #1a4a1a;         /* Very dark green */
+    --black: #000000;             /* Pure black */
+    --dark-gray: #0a0a0a;         /* Very dark gray */
+    --medium-gray: #1a1a1a;       /* Medium gray */
+    --light-gray: #2a2a2a;        /* Light gray */
+}
+
+/* Override all TUI backgrounds to black/gray */
+.tui-bg-blue-black,
+.tui-bg-cyan-black,
+.tui-bg-green-black,
+.tui-bg-purple-black,
+.tui-bg-yellow-black,
+.tui-bg-red-black,
+.tui-bg-black-white {
+    background-color: var(--black) !important;
+    color: var(--primary-green) !important;
+}
+
+/* Panel backgrounds with subtle variations */
+.tui-panel {
+    background-color: var(--black) !important;
+    border: 1px solid var(--dark-green) !important;
+    box-shadow: 0 0 10px rgba(85, 255, 85, 0.1);
+}
+
+.tui-panel-header {
+    background-color: var(--dark-gray) !important;
+    border-bottom: 1px solid var(--dark-green) !important;
+}
+
+.tui-panel-title {
+    color: var(--primary-green) !important;
+    font-size: var(--font-size-md) !important;
+    font-weight: bold;
+}
+
+.tui-panel-controls button {
+    background-color: var(--medium-gray) !important;
+    color: var(--medium-green) !important;
+    border: 1px solid var(--dark-green) !important;
+}
+
+/* Fieldset styling */
+.tui-fieldset {
+    border: 1px solid var(--dark-green) !important;
+    background-color: var(--dark-gray) !important;
+}
+
+.tui-fieldset-header {
+    background-color: var(--medium-gray) !important;
+    border-bottom: 1px solid var(--dark-green) !important;
+}
+
+.tui-fieldset-title {
+    color: var(--primary-green) !important;
+    font-size: var(--font-size-md) !important;
+    font-weight: bold;
+}
+
+.tui-fieldset-content {
+    background-color: var(--black) !important;
+}
+
+/* Override all text colors to green variations */
+.tui-text,
+.tui-color-white,
+.tui-color-cyan,
+.tui-color-yellow,
+.tui-color-red,
+.tui-color-blue,
+.tui-color-purple {
+    color: var(--medium-green) !important;
+}
+
+.tui-color-green,
+.tui-color-bright-green {
+    color: var(--primary-green) !important;
+}
+
+/* Input and textarea styling */
+textarea.tui-input,
+input.tui-input {
+    background-color: var(--black) !important;
+    color: var(--primary-green) !important;
+    border: None !important;
+    caret-color: var(--primary-green) !important;
+    font-weight: bold !important;
+}
+
+textarea.tui-input:focus,
+input.tui-input:focus {
+    border-color: var(--primary-green) !important;
+    box-shadow: 0 0 5px rgba(85, 255, 85, 0.3) !important;
+}
+
+/* Button styling */
+.tui-button {
+    background-color: var(--dark-gray) !important;
+    color: var(--primary-green) !important;
+    border: 1px solid var(--dark-green) !important;
+    text-shadow: 0 0 5px rgba(85, 255, 85, 0.3);
+}
+
+.tui-button:hover:not(:disabled) {
+    background-color: var(--medium-gray) !important;
+    border-color: var(--primary-green) !important;
+    box-shadow: 0 0 10px rgba(85, 255, 85, 0.5) !important;
+}
+
+.tui-button:active:not(:disabled) {
+    background-color: var(--dark-green) !important;
+    color: var(--black) !important;
+}
+
+.tui-button:disabled {
+    opacity: 0.3;
+    color: var(--dark-green) !important;
+    border-color: var(--dim-green) !important;
+}
+
+/* Special button states */
+#clean-btn {
+    background-color: var(--medium-gray) !important;
+    border: 2px solid var(--medium-green) !important;
+    font-weight: bold;
+}
+
+#clean-btn:hover:not(:disabled) {
+    background-color: var(--dark-green) !important;
+    color: var(--black) !important;
+    box-shadow: 0 0 15px rgba(85, 255, 85, 0.7) !important;
+}
+
+#copy-btn:not(:disabled) {
+    border-color: var(--medium-green) !important;
+}
+
+#copy-btn.copied {
+    background-color: var(--dark-green) !important;
+    color: var(--black) !important;
+    animation: copyPulse 0.5s ease;
+}
+
+/* Safari-specific styling to emphasize manual copy */
+#copy-btn.safari-user:not(:disabled) {
+    border: 2px solid var(--primary-green) !important;
+    box-shadow: 0 0 8px rgba(85, 255, 85, 0.4);
+    animation: safariGlow 2s ease-in-out infinite;
+}
+
+@keyframes safariGlow {
+    0%, 100% { 
+        box-shadow: 0 0 8px rgba(85, 255, 85, 0.4);
+    }
+    50% { 
+        box-shadow: 0 0 12px rgba(85, 255, 85, 0.6), 0 0 16px rgba(85, 255, 85, 0.3);
+    }
+}
+
+@keyframes copyPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); box-shadow: 0 0 20px rgba(85, 255, 85, 0.8); }
+    100% { transform: scale(1); }
+}
+
+/* List items */
+.tui-list li {
+    color: var(--medium-green) !important;
+}
+
+.tui-list li::before {
+    color: var(--primary-green) !important;
+}
+
+/* Table styling */
+.tui-table-row {
+    border-bottom-color: var(--dim-green) !important;
+}
+
+.tui-table-cell:first-child {
+    color: var(--primary-green) !important;
+    font-weight: bold;
+}
+
+.tui-table-cell:last-child {
+    color: var(--medium-green) !important;
+}
+
+/* Status indicators */
+.tui-status-item span {
+    color: var(--primary-green) !important;
+}
+
+/* Status badges (edited and copied) */
+#edited-badge,
+#copied-badge {
+    color: var(--primary-green) !important;
+    background-color: var(--dark-green) !important;
+    padding: 2px 8px;
+    border: 1px solid var(--medium-green) !important;
+    box-shadow: 0 0 5px rgba(85, 255, 85, 0.4);
+}
+
+#copied-badge {
+    color: var(--black) !important;
+    background-color: var(--primary-green) !important;
+    border-color: var(--primary-green) !important;
+    animation: copyPulse 0.5s ease;
+}
+
+/* Labels */
+label {
+    color: var(--primary-green) !important;
+}
+
+/* Footer specific styling */
+footer .tui-panel-content {
+    background-color: var(--dark-gray) !important;
+}
+
+footer .tui-text {
+    color: var(--medium-green) !important;
+    font-size: var(--font-size-sm);
+}
+
+.disclaimer-section {
+    text-align: center;
+    margin: 10px 0;
+    padding: 0 20px;
+}
+
+.disclaimer-text {
+    font-size: var(--font-size-xs) !important;
+    opacity: 0.9;
+    color: var(--medium-green) !important;
+    margin: 0;
+}
+
+/* Info tooltip styling */
+.info-tooltip {
+    display: inline-block;
+    margin-left: 5px;
+    font-size: var(--font-size-sm);
+    color: var(--medium-green);
+    cursor: help;
+    position: relative;
+}
+
+.info-tooltip:hover {
+    color: var(--primary-green);
+}
+
+/* Native tooltip styling enhancement */
+.info-tooltip[title]:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--dark-gray);
+    color: var(--primary-green);
+    padding: 5px 10px;
+    border: 1px solid var(--dim-green);
+    border-radius: 3px;
+    white-space: nowrap;
+    font-size: var(--font-size-md);
+    z-index: 1000;
+    pointer-events: none;
+}
+
+/* About section with sponsor layout */
+.about-content-with-sponsor {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.about-text-section {
+    flex: 1;
+}
+
+.about-sponsor-section {
+    flex-shrink: 0;
+    text-align: center;
+    padding: 10px;
+    border-left: 1px solid var(--dim-green);
+}
+
+.sponsor-link {
+    cursor: pointer;
+}
+
+.github-link {
+    color: var(--medium-green) !important;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.github-link:hover {
+    color: var(--primary-green) !important;
+    text-decoration: underline;
+}
+
+/* Header subtitle text constraint for better readability on larger screens */
+@media (min-width: 768px) {
+    .tui-text-center .tui-color-cyan {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+}
+
+/* Mobile layout for about sponsor */
+@media (max-width: 767px) {
+    .about-content-with-sponsor {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .about-sponsor-section {
+        border-left: none;
+        border-top: 1px solid var(--dim-green);
+        margin-top: 15px;
+        padding-top: 15px;
+        width: 100%;
+    }
+}
+
+/* Header panel special treatment */
+header.tui-panel {
+    background-color: var(--dark-gray) !important;
+    border-color: var(--primary-green) !important;
+    box-shadow: 0 0 20px rgba(85, 255, 85, 0.2);
+}
+
+/* Input section gets bright border initially */
+.input-section.tui-fieldset {
+    border-color: var(--primary-green) !important;
+    box-shadow: 0 0 20px rgba(85, 255, 85, 0.2);
+}
+
+/* When output is shown, input becomes subdued and output gets bright border */
+.output-section.has-content ~ * .input-section.tui-fieldset,
+.has-output .input-section.tui-fieldset {
+    border-color: var(--dark-green) !important;
+    box-shadow: 0 0 10px rgba(85, 255, 85, 0.1);
+}
+
+.output-section.has-content {
+    border-color: var(--primary-green) !important;
+    box-shadow: 0 0 20px rgba(85, 255, 85, 0.2);
+}
+
+/* Section panels variation */
+section.tui-panel {
+    background-color: var(--black) !important;
+    border-color: var(--dark-green) !important;
+}
+
+/* Main content area */
+main.tui-panel {
+    background-color: var(--black) !important;
+    border-color: var(--dark-green) !important;
+}
+
+/* Create depth with different panel levels */
+header .tui-panel-content {
+    background-color: var(--black) !important;
+}
+
+main .tui-panel-content {
+    background-color: var(--black) !important;
+}
+
+section .tui-panel-content {
+    background-color: var(--dark-gray) !important;
+}
+
+/* Scrollbar styling for Webkit browsers */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--black);
+    border: 1px solid var(--dark-green);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--dark-green);
+    border: 1px solid var(--medium-green);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--medium-green);
+}
+
+/* Terminal cursor effect for inputs */
+textarea.tui-input.typing-active {
+    box-shadow: 0 0 10px rgba(85, 255, 85, 0.6) !important;
+}
+
+/* Ensure all text is readable */
+* {
+    color: var(--medium-green);
+}
+
+/* Strong emphasis text */
+strong, b {
+    color: var(--primary-green) !important;
+    font-weight: bold;
+}
+
+/* Sponsor section styling */
+.sponsor-section {
+    text-align: center;
+    margin: 20px 0;
+    padding: 15px;
+    position: relative;
+    z-index: 100;
+}
+
+.sponsor-text {
+    color: var(--medium-green) !important;
+    font-size: var(--font-size-sm);
+    margin-bottom: 8px;
+    font-family: "Lucida Console", monospace;
+}
+
+.sponsor-link {
+    display: inline-block;
+    transition: opacity 0.3s ease;
+    pointer-events: auto;
+    position: relative;
+    z-index: 101;
+}
+
+.sponsor-link:hover .sponsor-logo {
+    transform: scale(1.1);
+}
+
+.sponsor-logo {
+    max-height: 70px;
+    width: auto;
+    pointer-events: auto;
+    transition: transform 0.2s ease;
+}
