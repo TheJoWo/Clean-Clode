@@ -23,6 +23,15 @@ body * {
     user-select: text !important;
 }
 
+/* Prevent zoom on iOS when focusing input fields while preserving text selection */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="number"],
+textarea {
+    font-size: 16px !important; /* iOS won't zoom if font-size is 16px or larger */
+}
+
 /* Disable text selection only for buttons and interactive controls */
 button,
 .tui-button,

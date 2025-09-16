@@ -22,6 +22,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const ABOUT_VISIBLE_KEY = 'clean-clode-about-visible';
     const FIRST_USE_KEY = 'clean-clode-first-use';
 
+    let lastCleanedInput = '';
+    let lastCleanedOutput = '';
+
     console.log('%c█▀▀ █░░ █▀▀ █▀█ █▄░█   █▀▀ █░░ █▀█ █▀▄ █▀▀\n' +
                 '█▄▄ █▄▄ ██▄ █▀█ █░▀█   █▄▄ █▄▄ █▄█ █▄▀ ██▄', 
                 'color: #00ff41; font-family: monospace');
@@ -180,6 +183,11 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
+        // Prevent duplicate history items when the same input/output is processed again
+        if (originalText === lastCleanedInput && cleanedText === lastCleanedOutput) {
+            return;
+        }
+
         try {
             const history = getHistory();
             const newItem = {
@@ -195,9 +203,13 @@ document.addEventListener('DOMContentLoaded', function() {
             const trimmedHistory = history.slice(0, 50);
 
             localStorage.setItem(HISTORY_KEY, JSON.stringify(trimmedHistory));
-            
+
+            // Update tracking variables
+            lastCleanedInput = originalText;
+            lastCleanedOutput = cleanedText;
+
             showHistorySection();
-            
+
             updateHistoryDisplay();
         } catch (error) {
         }
@@ -225,6 +237,17 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 
+    function deleteHistoryItem(itemId) {
+        try {
+            const history = getHistory();
+            const filteredHistory = history.filter(item => item.id !== itemId);
+            localStorage.setItem(HISTORY_KEY, JSON.stringify(filteredHistory));
+            updateHistoryDisplay();
+            updateHistoryVisibility();
+        } catch (error) {
+        }
+    }
+
     function clearHistory() {
         try {
             localStorage.removeItem(HISTORY_KEY);
@@ -250,16 +273,30 @@ document.addEventListener('DOMContentLoaded', function() {
         return date.toLocaleDateString();
     }
 
+    function createHistoryDeleteButton(itemId) {
+        const btn = document.createElement('button');
+        btn.className = 'tui-button tui-bg-red-black history-delete-btn';
+        btn.textContent = '[ DELETE ]';
+
+        btn.addEventListener('click', function() {
+            if (confirm('Delete this history item? This cannot be undone.')) {
+                deleteHistoryItem(itemId);
+            }
+        });
+
+        return btn;
+    }
+
     function createHistoryCopyButton(text) {
         const btn = document.createElement('button');
         btn.className = 'tui-button tui-bg-green-black history-copy-btn';
         btn.textContent = '[ COPY ]';
-        
+
         btn.addEventListener('click', async function() {
             const originalText = btn.textContent;
             btn.textContent = '[ ... ]';
             btn.disabled = true;
-            
+
             try {
                 if (window.isSecureContext && navigator.clipboard && navigator.clipboard.writeText) {
                     await navigator.clipboard.writeText(text);
@@ -273,16 +310,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     document.execCommand('copy');
                     document.body.removeChild(tempTextarea);
                 }
-                
+
                 btn.textContent = '[ ✓ ]';
                 btn.classList.add('copied');
-                
+
                 setTimeout(() => {
                     btn.textContent = originalText;
                     btn.classList.remove('copied');
                     btn.disabled = false;
                 }, 2000);
-                
+
             } catch (error) {
                 btn.textContent = '[ X ]';
                 setTimeout(() => {
@@ -291,7 +328,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }, 2000);
             }
         });
-        
+
         return btn;
     }
 
@@ -345,8 +382,10 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const controls = document.createElement('div');
             controls.className = 'history-item-controls';
-            
+
+            const deleteBtn = createHistoryDeleteButton(item.id);
             const copyBtn = createHistoryCopyButton(item.cleaned);
+            controls.appendChild(deleteBtn);
             controls.appendChild(copyBtn);
             
             header.appendChild(date);
@@ -593,7 +632,11 @@ document.addEventListener('DOMContentLoaded', function() {
         editedBadge.style.display = 'none';
         copiedBadge.style.display = 'none';
         updateOutputVisibility();
-        
+
+        // Reset duplicate tracking when input changes
+        lastCleanedInput = '';
+        lastCleanedOutput = '';
+
         if (inputText.value.trim()) {
             outputText.placeholder = '[READY FOR PROCESSING...]';
         } else {
