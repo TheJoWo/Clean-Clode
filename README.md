@@ -4,7 +4,7 @@
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-A simple web utility that cleans up messy terminal text from Claude Code and OpenAI Codex. Transform cluttered terminal output into clean, readable text ("Clean C(l)ode").
+Clean Clode (CleanClode) simple web utility that cleans up messy terminal text from Claude Code and OpenAI Codex. Transform cluttered terminal output into clean, readable text ("Clean C(l)ode").
 
 ## ✨ What it does
 
