@@ -834,8 +834,8 @@ footer .tui-text {
     pointer-events: none;
 }
 
-/* About section with sponsor layout */
-.about-content-with-sponsor {
+/* About section with supporter layout */
+.about-content-with-supporter {
     display: flex;
     gap: 20px;
     align-items: flex-start;
@@ -845,14 +845,14 @@ footer .tui-text {
     flex: 1;
 }
 
-.about-sponsor-section {
+.about-supporter-section {
     flex-shrink: 0;
     text-align: center;
     padding: 10px;
     border-left: 1px solid var(--dim-green);
 }
 
-.sponsor-link {
+.supporter-link {
     cursor: pointer;
 }
 
@@ -876,14 +876,14 @@ footer .tui-text {
     }
 }
 
-/* Mobile layout for about sponsor */
+/* Mobile layout for about supporter */
 @media (max-width: 767px) {
-    .about-content-with-sponsor {
+    .about-content-with-supporter {
         flex-direction: column;
         align-items: center;
     }
-    
-    .about-sponsor-section {
+
+    .about-supporter-section {
         border-left: none;
         border-top: 1px solid var(--dim-green);
         margin-top: 15px;
@@ -978,8 +978,8 @@ strong, b {
     font-weight: bold;
 }
 
-/* Sponsor section styling */
-.sponsor-section {
+/* Supporter section styling */
+.supporter-section {
     text-align: center;
     margin: 20px 0;
     padding: 15px;
@@ -987,14 +987,18 @@ strong, b {
     z-index: 100;
 }
 
-.sponsor-text {
+.supporter-section.hidden {
+    display: none !important;
+}
+
+.supporter-text {
     color: var(--medium-green) !important;
     font-size: var(--font-size-sm);
     margin-bottom: 8px;
     font-family: "Lucida Console", monospace;
 }
 
-.sponsor-link {
+.supporter-link {
     display: inline-block;
     transition: opacity 0.3s ease;
     pointer-events: auto;
@@ -1002,11 +1006,11 @@ strong, b {
     z-index: 101;
 }
 
-.sponsor-link:hover .sponsor-logo {
+.supporter-link:hover .supporter-logo {
     transform: scale(1.1);
 }
 
-.sponsor-logo {
+.supporter-logo {
     max-height: 70px;
     width: auto;
     pointer-events: auto;

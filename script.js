@@ -119,19 +119,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function updateAboutSectionDisplay() {
         const visible = isAboutVisible();
-        const footerSponsor = document.getElementById('footer-sponsor');
-        
+        const footerSupporter = document.getElementById('footer-supporter');
+
         if (visible) {
             aboutContent.style.display = 'block';
             aboutToggle.textContent = '[ HIDE ]';
-            if (footerSponsor) {
-                footerSponsor.style.display = 'none';
+            if (footerSupporter) {
+                footerSupporter.classList.add('hidden');
             }
         } else {
             aboutContent.style.display = 'none';
             aboutToggle.textContent = '[ SHOW ]';
-            if (footerSponsor) {
-                footerSponsor.style.display = 'block';
+            if (footerSupporter) {
+                footerSupporter.classList.remove('hidden');
             }
         }
     }
