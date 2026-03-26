@@ -538,9 +538,37 @@ document.addEventListener('DOMContentLoaded', function() {
             .trim();
     }
 
+    function unwrapTerminalLines(input) {
+        const lines = input.split('\n').map(l => l.trimEnd());
+        const result = [];
+        let i = 0;
+        while (i < lines.length) {
+            let line = lines[i];
+            while (i + 1 < lines.length &&
+                   line.length > 0 &&
+                   !line.endsWith('\\') &&
+                   lines[i + 1].trim().length > 0 &&
+                   !/^\s*--/.test(lines[i + 1])) {
+                i++;
+                const lastChar = line.slice(-1);
+                const nextContent = lines[i].trim();
+                const midWord = /[a-zA-Z0-9]/.test(lastChar) && /^[a-zA-Z0-9]/.test(nextContent);
+                line = line + (midWord ? '' : ' ') + nextContent;
+            }
+            result.push(line);
+            i++;
+        }
+        return result.join('\n');
+    }
+
     function detectAndClean(input) {
         if (!input.trim()) {
             return '';
+        }
+
+        // Rejoin terminal hard-wrapped lines in shell commands with \ continuations
+        if (/\\\s*$/m.test(input)) {
+            input = unwrapTerminalLines(input);
         }
 
         if (/^\s*\d+\s*[+-]\s/m.test(input)) {
