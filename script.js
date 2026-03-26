@@ -504,7 +504,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function cleanGitDiff(input) {
         return input
-            .replace(/[│┃╏╎|▌]+/g, '')
+            .replace(/[│┃╏╎▌]+/g, '')
             .replace(/([^\n])\n(?!\s*(\d+\s*[+-]\s*|[\-*•●⏺▶▪◦]|\d+\.|[A-Z][a-z]|[📌🎯📋📖✨✅❌⭐🔥👉➡️]|^\s*$|$))/g, '$1 ')
             .replace(/[ \t]+/g, ' ')
             .split('\n')
@@ -525,7 +525,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function cleanClaudeDump(input) {
         return input
-            .replace(/[│┃╏╎|▌]+/g, '')
+            .replace(/[│┃╏╎▌]+/g, '')
             .replace(/ {2,}/g, ' ')
             .replace(/([^\n])\n(?!\s*([\-*•●⏺▶▪◦]|\d+\.|[A-Z][a-z]|[📌🎯📋📖✨✅❌⭐🔥👉➡️]|$))/g, '$1 ')
             .replace(/([a-z,:])\s*\n\s*([a-z])/g, '$1 $2')
@@ -547,7 +547,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return cleanGitDiff(input);
         }
 
-        if (/[│┃╏╎▌]/.test(input) || /\|/.test(input)) {
+        if (/[│┃╏╎▌]/.test(input)) {
             return cleanClaudeDump(input);
         }
 
