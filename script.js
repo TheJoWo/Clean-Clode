@@ -703,7 +703,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Shell command: normalize to single line, then prettify
-        if (/\\\s*$/m.test(input) || /--[\w-]+.*\n[ \t]+\S/m.test(input)) {
+        if (/\\\s*$/m.test(input) ||
+            /--[\w-]+.*\n[ \t]+\S/m.test(input) ||
+            /--[\w-]+.*(&&|\|\|).*--[\w-]+/.test(input)) {
             // Strip explicit \ continuations
             let normalized = input.replace(/\s*\\\s*\n\s*/g, ' ');
             // Join remaining soft-wrapped lines
