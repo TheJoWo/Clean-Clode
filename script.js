@@ -504,7 +504,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function cleanGitDiff(input) {
         return input
-            .replace(/[│┃╏╎|▌]+/g, '')
+            .replace(/[│┃╏╎▌]+/g, '')
             .replace(/([^\n])\n(?!\s*(\d+\s*[+-]\s*|[\-*•●⏺▶▪◦]|\d+\.|[A-Z][a-z]|[📌🎯📋📖✨✅❌⭐🔥👉➡️]|^\s*$|$))/g, '$1 ')
             .replace(/[ \t]+/g, ' ')
             .split('\n')
@@ -525,7 +525,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function cleanClaudeDump(input) {
         return input
-            .replace(/[│┃╏╎|▌]+/g, '')
+            .replace(/[│┃╏╎▌]+/g, '')
             .replace(/ {2,}/g, ' ')
             .replace(/([^\n])\n(?!\s*([\-*•●⏺▶▪◦]|\d+\.|[A-Z][a-z]|[📌🎯📋📖✨✅❌⭐🔥👉➡️]|$))/g, '$1 ')
             .replace(/([a-z,:])\s*\n\s*([a-z])/g, '$1 $2')
@@ -538,16 +538,188 @@ document.addEventListener('DOMContentLoaded', function() {
             .trim();
     }
 
+    function tokenizeShell(input) {
+        const tokens = [];
+        let current = '';
+        let inSingle = false;
+        let inDouble = false;
+        let escaped = false;
+
+        for (let i = 0; i < input.length; i++) {
+            const ch = input[i];
+            if (escaped) { current += ch; escaped = false; continue; }
+            if (ch === '\\' && !inSingle) { escaped = true; current += ch; continue; }
+            if (ch === "'" && !inDouble) { inSingle = !inSingle; current += ch; continue; }
+            if (ch === '"' && !inSingle) { inDouble = !inDouble; current += ch; continue; }
+            if (!inSingle && !inDouble && /\s/.test(ch)) {
+                if (current) { tokens.push(current); current = ''; }
+                continue;
+            }
+            current += ch;
+        }
+        if (current) tokens.push(current);
+        return tokens;
+    }
+
+    function splitCommandsByOperators(input) {
+        const segments = [];
+        let current = '';
+        let inSingle = false;
+        let inDouble = false;
+        let escaped = false;
+
+        for (let i = 0; i < input.length; i++) {
+            const ch = input[i];
+            if (escaped) { current += ch; escaped = false; continue; }
+            if (ch === '\\' && !inSingle) { escaped = true; current += ch; continue; }
+            if (ch === "'" && !inDouble) { inSingle = !inSingle; current += ch; continue; }
+            if (ch === '"' && !inSingle) { inDouble = !inDouble; current += ch; continue; }
+            if (!inSingle && !inDouble) {
+                if (ch === '&' && i + 1 < input.length && input[i + 1] === '&') {
+                    segments.push({ cmd: current.trim(), op: '&&' });
+                    current = '';
+                    i++;
+                    continue;
+                }
+                if (ch === '|' && i + 1 < input.length && input[i + 1] === '|') {
+                    segments.push({ cmd: current.trim(), op: '||' });
+                    current = '';
+                    i++;
+                    continue;
+                }
+                if (ch === '|') {
+                    segments.push({ cmd: current.trim(), op: '|' });
+                    current = '';
+                    continue;
+                }
+                if (ch === ';') {
+                    segments.push({ cmd: current.trim(), op: ';' });
+                    current = '';
+                    continue;
+                }
+            }
+            current += ch;
+        }
+        if (current.trim()) segments.push({ cmd: current.trim(), op: '' });
+        return segments;
+    }
+
+    function prettifyShellCommand(input) {
+        const allTokens = tokenizeShell(input);
+        const shellKeywords = new Set([
+            'for', 'while', 'until', 'if', 'then', 'else', 'elif',
+            'fi', 'do', 'done', 'case', 'esac', 'select'
+        ]);
+        if (allTokens.some(t => shellKeywords.has(t))) {
+            return input;
+        }
+
+        if (input.length <= 80) {
+            return input;
+        }
+
+        const segments = splitCommandsByOperators(input);
+        const lines = [];
+
+        segments.forEach(seg => {
+            const cmdTokens = tokenizeShell(seg.cmd);
+            if (cmdTokens.length === 0) return;
+
+            // Base command: tokens before first flag
+            let baseEnd = 0;
+            for (let i = 0; i < cmdTokens.length; i++) {
+                if (cmdTokens[i].startsWith('-')) break;
+                baseEnd = i + 1;
+            }
+
+            const base = cmdTokens.slice(0, baseEnd).join(' ');
+            const flagTokens = cmdTokens.slice(baseEnd);
+
+            // Group flags with their values
+            const groups = [];
+            for (let i = 0; i < flagTokens.length; i++) {
+                if (flagTokens[i].startsWith('-')) {
+                    let group = flagTokens[i];
+                    if (!flagTokens[i].includes('=') &&
+                        i + 1 < flagTokens.length &&
+                        !flagTokens[i + 1].startsWith('-')) {
+                        group += ' ' + flagTokens[i + 1];
+                        i++;
+                    }
+                    groups.push(group);
+                } else {
+                    groups.push(flagTokens[i]);
+                }
+            }
+
+            if (groups.length === 0) {
+                lines.push(seg.op ? base + ' ' + seg.op + ' \\' : base);
+            } else {
+                lines.push(base + ' \\');
+                groups.forEach((g, i) => {
+                    const isLast = i === groups.length - 1;
+                    if (isLast && seg.op) {
+                        lines.push('  ' + g + ' ' + seg.op + ' \\');
+                    } else if (isLast) {
+                        lines.push('  ' + g);
+                    } else {
+                        lines.push('  ' + g + ' \\');
+                    }
+                });
+            }
+        });
+
+        return lines.join('\n');
+    }
+
+    function unwrapTerminalLines(input) {
+        const lines = input.split('\n').map(l => l.trimEnd());
+        const result = [];
+        let i = 0;
+        while (i < lines.length) {
+            let line = lines[i];
+            while (i + 1 < lines.length &&
+                   line.length > 0 &&
+                   !line.endsWith('\\') &&
+                   lines[i + 1].trim().length > 0 &&
+                   !/^\s*--/.test(lines[i + 1])) {
+                i++;
+                const lastChar = line.slice(-1);
+                const nextLine = lines[i];
+                const nextContent = nextLine.trim();
+                const isIndented = /^[ \t]/.test(nextLine);
+                const midWord = !isIndented && /[a-zA-Z0-9]/.test(lastChar) && /^[a-zA-Z0-9]/.test(nextContent);
+                line = line + (midWord ? '' : ' ') + nextContent;
+            }
+            result.push(line);
+            i++;
+        }
+        return result.join('\n');
+    }
+
     function detectAndClean(input) {
         if (!input.trim()) {
             return '';
+        }
+
+        // Shell command: normalize to single line, then prettify
+        if (/\\\s*$/m.test(input) ||
+            /--[\w-]+.*\n[ \t]+\S/m.test(input) ||
+            /--[\w-]+.*(&&|\|\|).*--[\w-]+/.test(input)) {
+            // Strip explicit \ continuations
+            let normalized = input.replace(/\s*\\\s*\n\s*/g, ' ');
+            // Join remaining soft-wrapped lines
+            normalized = unwrapTerminalLines(normalized);
+            // Collapse multiple spaces
+            normalized = normalized.replace(/  +/g, ' ').trim();
+            return prettifyShellCommand(normalized);
         }
 
         if (/^\s*\d+\s*[+-]\s/m.test(input)) {
             return cleanGitDiff(input);
         }
 
-        if (/[│┃╏╎▌]/.test(input) || /\|/.test(input)) {
+        if (/[│┃╏╎▌]/.test(input)) {
             return cleanClaudeDump(input);
         }
 
